@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import UIKit
 
-protocol MACCollectionViewDelegate
+@objc protocol MACCollectionViewDelegate
 {
-    
+    optional func collectionView(collectionView: MACCollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) -> Void
+    optional func collectionView(collectionView: MACCollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) -> Void
+    func textFieldChanged(updatedText:String) -> Void
 }

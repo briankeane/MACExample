@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextEntryCellCollectionViewCell: UICollectionViewCell {
+class TextEntryCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var textField: UITextField!
     

@@ -8,14 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UICollectionViewDelegateFlowLayout
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MACCollectionViewDataSource, MACCollectionViewDelegate
 {
     
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: MACCollectionView!
     @IBOutlet weak var tableView: UITableView!
     
     var searchTextField:UITextField?
+    var macCollectionViewController:MACCollectionViewController!
     
     var words = [
         "abandon",
@@ -45,20 +46,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Do any additional setup after loading the view, typically from a nib.
         self.setupTableView()
         self.setupCollectionView()
-        self.setupListeners()
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func setupListeners()
-    {
-        NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) in
-            self.textFieldChanged()
-        }
-        
-        NSNotificationCenter.defaultCenter().addObserverForName("BackspacePressedEvent", object: nil, queue: NSOperationQueue.mainQueue()) { (notification) in
-            self.backspacePressed()
-        }
     }
     
     //------------------------------------------------------------------------------
@@ -72,11 +59,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func setupCollectionView()
     {
-        self.collectionView.dataSource = self
-        self.collectionView.delegate = self
-        self.collectionView.registerNib(UINib(nibName: "TextEntryCellCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TextEntryCellCollectionViewCell")
-        self.collectionView.registerNib(UINib(nibName: "SelectedCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "SelectedCell")
-        self.collectionView.contentInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        self.macCollectionViewController = MACCollectionViewController()
+        self.addChildViewController(macCollectionViewController)
+        self.view.addSubview(macCollectionViewController.view)
+        self.macCollectionViewController.dataSource = self
+        self.macCollectionViewController.delegate = self
+        self.macCollectionViewController.collectionView = self.collectionView
     }
     
     //------------------------------------------------------------------------------
@@ -109,79 +97,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     //------------------------------------------------------------------------------
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.selected.count + 1
-    }
-    
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if (indexPath.row == self.selected.count)
-        {
-            let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("TextEntryCellCollectionViewCell", forIndexPath: indexPath) as! TextEntryCellCollectionViewCell
-            cell.textField.text = ""
-            self.setupTextField(cell.textField)
-            return cell
-        }
-        else
-        {
-            let cell = self.collectionView.dequeueReusableCellWithReuseIdentifier("SelectedCell", forIndexPath: indexPath) as! SelectedCollectionViewCell
-            cell.label.text = self.selected[indexPath.item]
-            cell.contentView.layer.borderColor = UIColor.blackColor().CGColor
-            cell.contentView.layer.borderWidth = 2.0
-            cell.contentView.layer.cornerRadius = 10
-            self.colorizeSelectedCell(cell)
-            return cell
-        }
+    func numberOfChosenItems(macCollectionView: MACCollectionView) -> Int {
+        return self.selected.count
     }
     
     //------------------------------------------------------------------------------
     
-    func colorizeSelectedCell(cell:SelectedCollectionViewCell)
+    func titleForItemAtIndexPath(indexPath: NSIndexPath) -> String
     {
-        if (cell.selected)
-        {
-            self.markSelectedCollectionViewCell(cell)
-        }
-        else
-        {
-            self.markUnselectedCollectionViewItem(cell)
-        }
+        return self.selected[indexPath.item]
     }
     
     //------------------------------------------------------------------------------
     
-    func setupTextField(textField:UITextField)
+    func textFieldChanged(updatedText: String)
     {
-        self.searchTextField = textField
-        self.searchTextField?.delegate = self
-        self.searchTextField?.becomeFirstResponder()
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func textFieldChanged()
-    {
-        if let textField = self.searchTextField
-        {
-            self.performSearch(textField.text!)
-            self.collectionView.collectionViewLayout.invalidateLayout()
-
-        }
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if (self.searchResults.count > 0)
-        {
-            self.selected.append(self.searchResults[0])
-            self.collectionView.reloadData()
-            self.focusOnTextField()
-        }
-        return true
+        self.performSearch(updatedText)
     }
     
     //------------------------------------------------------------------------------
@@ -201,179 +132,32 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     //------------------------------------------------------------------------------
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func handleReturnKeypress(macCollectionView: MACCollectionView)
+    {
+        if (self.searchResults.count > 0)
+        {
+            self.selected.append(self.searchResults[self.searchResults.count-1])
+            self.macCollectionViewController.reloadData()
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
         let newSelected = self.searchResults[indexPath.row]
         self.selected.append(newSelected)
-        dispatch_async(dispatch_get_main_queue())
-        {
-            self.collectionView.reloadData()
-            self.collectionViewHeightConstraint.constant = self.collectionView.collectionViewLayout.collectionViewContentSize().height + self.collectionView.contentInset.top + self.collectionView.contentInset.bottom
-            self.focusOnTextField()
-        }
+        self.macCollectionViewController.reloadData()
     }
     
     //------------------------------------------------------------------------------
     
-    func backspacePressed()
-    {
-        if (self.searchTextField?.text?.characters.count == 0)
+    func willRemoveItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
+        var indexes:Array<Int> = indexPaths.map({$0.item}).reverse()   // reverse so decrementing
+        for i in 0..<indexes.count
         {
-            if (self.selected.count > 0)
-            {
-                
-                if let selectedIndexPaths = self.collectionView.indexPathsForSelectedItems()
-                {
-                    if (selectedIndexPaths.count == 0)
-                    {
-                        let indexPath = NSIndexPath(forItem: self.selected.count-1, inSection: 0)
-                        //self.deselectAll()
-                        self.collectionView.selectItemAtIndexPath(NSIndexPath(forItem: self.selected.count-1, inSection: 0), animated: false, scrollPosition: .None)
-                        if let cell = self.collectionView.cellForItemAtIndexPath(indexPath) as? SelectedCollectionViewCell
-                        {
-                            self.markSelectedCollectionViewCell(cell)
-                        }
-                    }
-                    else
-                    {
-                        var indexes = selectedIndexPaths.map({$0.item})
-                        print("test.count: \(indexes.count)")
-                        for i in 0..<indexes.count
-                        {
-                            self.selected.removeAtIndex(indexes[i])
-                        }
-                        self.collectionView.performBatchUpdates({
-                            self.collectionView.deleteItemsAtIndexPaths(selectedIndexPaths)
-                            for i in 0..<indexes.count
-                            {
-                                let cell = self.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0))
-                                cell?.sizeToFit()
-                            }
-                        }, completion: { (completed) in
-                                self.collectionView.collectionViewLayout.invalidateLayout()
-                        })
-                        
- 
-                    }
-                }
-
-            }
+            self.selected.removeAtIndex(indexes[i])
         }
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func markSelectedCollectionViewCell(cell:SelectedCollectionViewCell)
-    {
-        cell.contentView.backgroundColor = UIColor.blueColor()
-        cell.label.textColor = UIColor.whiteColor()
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func markUnselectedCollectionViewItem(cell:SelectedCollectionViewCell)
-    {
-        cell.selected = false
-        cell.contentView.backgroundColor = UIColor.whiteColor()
-        cell.label.textColor = UIColor.blueColor()
-        
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.deselectAll()
-        self.collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-        if let cell = self.collectionView.cellForItemAtIndexPath(indexPath) as? SelectedCollectionViewCell
-        {
-            self.markSelectedCollectionViewCell(cell)
-        }
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        var text:String
-        if (indexPath.item == self.selected.count)
-        {
-            if let textField = self.searchTextField
-            {
-                text = textField.text!
-            }
-            else
-            {
-                text = "0"
-            }
-        }
-        else
-        {
-            text = self.selected[indexPath.item]
-        }
-        
-        print("self.selected: \(self.selected)")
-        print("text: \(text)")
-        print("item: \(indexPath.item)")
-        return self.calculateLabelSize(text)
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func focusOnTextField()
-    {
-        delay(0.1) {
-            self.searchTextField?.becomeFirstResponder()
-            
-        }
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        // if it's the first letter
-        if (self.searchTextField!.text?.characters.count == 0)
-        {
-            self.deselectAll()
-        }
-        return true
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func deselectAll()
-    {
-        for i in 0..<self.selected.count
-        {
-            if let cell = self.collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0)) as? SelectedCollectionViewCell
-            {
-                self.collectionView.deselectItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0), animated:false)
-                self.markUnselectedCollectionViewItem(cell)
-            }
-        }
-    }
-    
-    //------------------------------------------------------------------------------
-    
-    func calculateLabelSize(text:String) -> CGSize
-    {
-        let minimumWidth = CGFloat(10.0)
-        let minimumHeight = CGFloat(20.0)
-        let font = UIFont.systemFontOfSize(CGFloat(17.0))
-        let fontAttributes = [NSFontAttributeName: font] as [String:AnyObject] // it says name, but a UIFont works
-        var size = (text as NSString).sizeWithAttributes(fontAttributes)
-        
-        //size.height = 30.0
-        if (size.height < minimumHeight)
-        {
-            size.height = minimumHeight
-        }
-        
-        if (size.width < minimumWidth)
-        {
-            size.width = minimumWidth
-        }
-        
-        // pad left and right
-        size.width += 3.0
-        return size
     }
 }
 

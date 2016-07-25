@@ -11,5 +11,8 @@ import UIKit
 
 protocol MACCollectionViewDataSource
 {
-    func collectionView(collectionView: MACCollectionView, numberOfItemsInSection section: Int) -> Int
+    func numberOfChosenItems(macCollectionView:MACCollectionView) -> Int
+    func titleForItemAtIndexPath(indexPath:NSIndexPath) -> String
+    func willRemoveItemsAtIndexPaths(indexPaths:[NSIndexPath]) -> Void
+    func handleReturnKeypress(macCollectionView:MACCollectionView) -> Void
 }

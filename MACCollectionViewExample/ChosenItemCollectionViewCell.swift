@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SelectedCollectionViewCell: UICollectionViewCell {
+class ChosenItemCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var label: UILabel!
 }

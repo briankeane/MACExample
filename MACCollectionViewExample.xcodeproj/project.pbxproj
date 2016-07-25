@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B6670D81D43939A00A08D14 /* SelectedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B6670D71D43939A00A08D14 /* SelectedCollectionViewCell.xib */; };
-		4B6670DA1D43940100A08D14 /* SelectedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6670D91D43940100A08D14 /* SelectedCollectionViewCell.swift */; };
+		4B6670D81D43939A00A08D14 /* ChosenItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B6670D71D43939A00A08D14 /* ChosenItemCollectionViewCell.xib */; };
+		4B6670DA1D43940100A08D14 /* ChosenItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6670D91D43940100A08D14 /* ChosenItemCollectionViewCell.swift */; };
 		4B6FE1DA1D455C63009E644F /* BackspaceAwareTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FE1D91D455C63009E644F /* BackspaceAwareTextField.swift */; };
 		4B6FE1DC1D468FFC009E644F /* MACCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FE1DB1D468FFC009E644F /* MACCollectionViewController.swift */; };
 		4B6FE1DE1D46915D009E644F /* MACCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FE1DD1D46915D009E644F /* MACCollectionViewDelegate.swift */; };
-		4B6FE1E01D469182009E644F /* MacCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FE1DF1D469182009E644F /* MacCollectionViewDataSource.swift */; };
+		4B6FE1E41D469BFB009E644F /* MacCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FE1DF1D469182009E644F /* MacCollectionViewDataSource.swift */; };
 		4BC4D0571D42EE64004EAA66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0561D42EE64004EAA66 /* AppDelegate.swift */; };
 		4BC4D0591D42EE64004EAA66 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0581D42EE64004EAA66 /* ViewController.swift */; };
 		4BC4D05C1D42EE64004EAA66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC4D05A1D42EE64004EAA66 /* Main.storyboard */; };
@@ -22,7 +22,7 @@
 		4BC4D0771D42EE65004EAA66 /* MACCollectionViewExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0761D42EE65004EAA66 /* MACCollectionViewExampleUITests.swift */; };
 		4BC4D0851D42EF13004EAA66 /* MACCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0841D42EF13004EAA66 /* MACCollectionView.swift */; };
 		4BC4D0881D42F0EF004EAA66 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0871D42F0EF004EAA66 /* TableViewCell.swift */; };
-		4BC4D0921D42FB00004EAA66 /* TextEntryCellCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC4D0911D42FB00004EAA66 /* TextEntryCellCollectionViewCell.xib */; };
+		4BC4D0921D42FB00004EAA66 /* TextEntryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC4D0911D42FB00004EAA66 /* TextEntryCollectionViewCell.xib */; };
 		4BC4D0941D42FB31004EAA66 /* TextEntryCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0931D42FB31004EAA66 /* TextEntryCellCollectionViewCell.swift */; };
 		7B083824C86A585C5A5050AB /* Pods_MACCollectionViewExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49389354C08B0129CE03A3B6 /* Pods_MACCollectionViewExample.framework */; };
 /* End PBXBuildFile section */
@@ -47,8 +47,8 @@
 /* Begin PBXFileReference section */
 		25E26C4E46FCED57D5A09A1D /* Pods-MACCollectionViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MACCollectionViewExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-MACCollectionViewExample/Pods-MACCollectionViewExample.release.xcconfig"; sourceTree = "<group>"; };
 		49389354C08B0129CE03A3B6 /* Pods_MACCollectionViewExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MACCollectionViewExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B6670D71D43939A00A08D14 /* SelectedCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedCollectionViewCell.xib; sourceTree = "<group>"; };
-		4B6670D91D43940100A08D14 /* SelectedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedCollectionViewCell.swift; sourceTree = "<group>"; };
+		4B6670D71D43939A00A08D14 /* ChosenItemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChosenItemCollectionViewCell.xib; sourceTree = "<group>"; };
+		4B6670D91D43940100A08D14 /* ChosenItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChosenItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		4B6FE1D91D455C63009E644F /* BackspaceAwareTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackspaceAwareTextField.swift; sourceTree = "<group>"; };
 		4B6FE1DB1D468FFC009E644F /* MACCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MACCollectionViewController.swift; sourceTree = "<group>"; };
 		4B6FE1DD1D46915D009E644F /* MACCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MACCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -68,7 +68,7 @@
 		4BC4D0781D42EE65004EAA66 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BC4D0841D42EF13004EAA66 /* MACCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MACCollectionView.swift; sourceTree = "<group>"; };
 		4BC4D0871D42F0EF004EAA66 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		4BC4D0911D42FB00004EAA66 /* TextEntryCellCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextEntryCellCollectionViewCell.xib; sourceTree = "<group>"; };
+		4BC4D0911D42FB00004EAA66 /* TextEntryCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextEntryCollectionViewCell.xib; sourceTree = "<group>"; };
 		4BC4D0931D42FB31004EAA66 /* TextEntryCellCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEntryCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		A810BF9521D571D16683F26E /* Pods-MACCollectionViewExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MACCollectionViewExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MACCollectionViewExample/Pods-MACCollectionViewExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -108,6 +108,24 @@
 			name = Protocols;
 			sourceTree = "<group>";
 		};
+		4B6FE1E21D4697EB009E644F /* TextEntryCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				4BC4D0911D42FB00004EAA66 /* TextEntryCollectionViewCell.xib */,
+				4BC4D0931D42FB31004EAA66 /* TextEntryCellCollectionViewCell.swift */,
+			);
+			name = TextEntryCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		4B6FE1E31D46993A009E644F /* ChosenCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				4B6670D71D43939A00A08D14 /* ChosenItemCollectionViewCell.xib */,
+				4B6670D91D43940100A08D14 /* ChosenItemCollectionViewCell.swift */,
+			);
+			name = ChosenCollectionViewCell;
+			sourceTree = "<group>";
+		};
 		4BC4D04A1D42EE64004EAA66 = {
 			isa = PBXGroup;
 			children = (
@@ -135,10 +153,7 @@
 			children = (
 				4BC4D0561D42EE64004EAA66 /* AppDelegate.swift */,
 				4BC4D0581D42EE64004EAA66 /* ViewController.swift */,
-				4BC4D0911D42FB00004EAA66 /* TextEntryCellCollectionViewCell.xib */,
-				4B6670D71D43939A00A08D14 /* SelectedCollectionViewCell.xib */,
-				4B6670D91D43940100A08D14 /* SelectedCollectionViewCell.swift */,
-				4BC4D0931D42FB31004EAA66 /* TextEntryCellCollectionViewCell.swift */,
+				4B6FE1E31D46993A009E644F /* ChosenCollectionViewCell */,
 				4BC4D0871D42F0EF004EAA66 /* TableViewCell.swift */,
 				4BC4D05A1D42EE64004EAA66 /* Main.storyboard */,
 				4BC4D0861D42EF93004EAA66 /* MACLibrary */,
@@ -171,6 +186,7 @@
 		4BC4D0861D42EF93004EAA66 /* MACLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				4B6FE1E21D4697EB009E644F /* TextEntryCollectionViewCell */,
 				4BC4D0841D42EF13004EAA66 /* MACCollectionView.swift */,
 				4B6FE1DB1D468FFC009E644F /* MACCollectionViewController.swift */,
 				4B6FE1E11D469204009E644F /* Protocols */,
@@ -304,8 +320,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4BC4D0611D42EE64004EAA66 /* LaunchScreen.storyboard in Resources */,
-				4B6670D81D43939A00A08D14 /* SelectedCollectionViewCell.xib in Resources */,
-				4BC4D0921D42FB00004EAA66 /* TextEntryCellCollectionViewCell.xib in Resources */,
+				4B6670D81D43939A00A08D14 /* ChosenItemCollectionViewCell.xib in Resources */,
+				4BC4D0921D42FB00004EAA66 /* TextEntryCollectionViewCell.xib in Resources */,
 				4BC4D05E1D42EE64004EAA66 /* Assets.xcassets in Resources */,
 				4BC4D05C1D42EE64004EAA66 /* Main.storyboard in Resources */,
 			);
@@ -385,10 +401,10 @@
 				4BC4D0591D42EE64004EAA66 /* ViewController.swift in Sources */,
 				4BC4D0881D42F0EF004EAA66 /* TableViewCell.swift in Sources */,
 				4B6FE1DA1D455C63009E644F /* BackspaceAwareTextField.swift in Sources */,
-				4B6FE1E01D469182009E644F /* MacCollectionViewDataSource.swift in Sources */,
+				4B6FE1E41D469BFB009E644F /* MacCollectionViewDataSource.swift in Sources */,
 				4BC4D0851D42EF13004EAA66 /* MACCollectionView.swift in Sources */,
 				4BC4D0571D42EE64004EAA66 /* AppDelegate.swift in Sources */,
-				4B6670DA1D43940100A08D14 /* SelectedCollectionViewCell.swift in Sources */,
+				4B6670DA1D43940100A08D14 /* ChosenItemCollectionViewCell.swift in Sources */,
 				4BC4D0941D42FB31004EAA66 /* TextEntryCellCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
