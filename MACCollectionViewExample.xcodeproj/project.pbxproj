@@ -10,6 +10,9 @@
 		4B6670D81D43939A00A08D14 /* SelectedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B6670D71D43939A00A08D14 /* SelectedCollectionViewCell.xib */; };
 		4B6670DA1D43940100A08D14 /* SelectedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6670D91D43940100A08D14 /* SelectedCollectionViewCell.swift */; };
 		4B6FE1DA1D455C63009E644F /* BackspaceAwareTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FE1D91D455C63009E644F /* BackspaceAwareTextField.swift */; };
+		4B6FE1DC1D468FFC009E644F /* MACCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FE1DB1D468FFC009E644F /* MACCollectionViewController.swift */; };
+		4B6FE1DE1D46915D009E644F /* MACCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FE1DD1D46915D009E644F /* MACCollectionViewDelegate.swift */; };
+		4B6FE1E01D469182009E644F /* MacCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FE1DF1D469182009E644F /* MacCollectionViewDataSource.swift */; };
 		4BC4D0571D42EE64004EAA66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0561D42EE64004EAA66 /* AppDelegate.swift */; };
 		4BC4D0591D42EE64004EAA66 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0581D42EE64004EAA66 /* ViewController.swift */; };
 		4BC4D05C1D42EE64004EAA66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC4D05A1D42EE64004EAA66 /* Main.storyboard */; };
@@ -47,6 +50,9 @@
 		4B6670D71D43939A00A08D14 /* SelectedCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedCollectionViewCell.xib; sourceTree = "<group>"; };
 		4B6670D91D43940100A08D14 /* SelectedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedCollectionViewCell.swift; sourceTree = "<group>"; };
 		4B6FE1D91D455C63009E644F /* BackspaceAwareTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackspaceAwareTextField.swift; sourceTree = "<group>"; };
+		4B6FE1DB1D468FFC009E644F /* MACCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MACCollectionViewController.swift; sourceTree = "<group>"; };
+		4B6FE1DD1D46915D009E644F /* MACCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MACCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		4B6FE1DF1D469182009E644F /* MacCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MacCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		4BC4D0531D42EE64004EAA66 /* MACCollectionViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MACCollectionViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC4D0561D42EE64004EAA66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4BC4D0581D42EE64004EAA66 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +99,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B6FE1E11D469204009E644F /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				4B6FE1DD1D46915D009E644F /* MACCollectionViewDelegate.swift */,
+				4B6FE1DF1D469182009E644F /* MacCollectionViewDataSource.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
 		4BC4D04A1D42EE64004EAA66 = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +172,8 @@
 			isa = PBXGroup;
 			children = (
 				4BC4D0841D42EF13004EAA66 /* MACCollectionView.swift */,
+				4B6FE1DB1D468FFC009E644F /* MACCollectionViewController.swift */,
+				4B6FE1E11D469204009E644F /* Protocols */,
 			);
 			name = MACLibrary;
 			sourceTree = "<group>";
@@ -363,9 +380,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B6FE1DC1D468FFC009E644F /* MACCollectionViewController.swift in Sources */,
+				4B6FE1DE1D46915D009E644F /* MACCollectionViewDelegate.swift in Sources */,
 				4BC4D0591D42EE64004EAA66 /* ViewController.swift in Sources */,
 				4BC4D0881D42F0EF004EAA66 /* TableViewCell.swift in Sources */,
 				4B6FE1DA1D455C63009E644F /* BackspaceAwareTextField.swift in Sources */,
+				4B6FE1E01D469182009E644F /* MacCollectionViewDataSource.swift in Sources */,
 				4BC4D0851D42EF13004EAA66 /* MACCollectionView.swift in Sources */,
 				4BC4D0571D42EE64004EAA66 /* AppDelegate.swift in Sources */,
 				4B6670DA1D43940100A08D14 /* SelectedCollectionViewCell.swift in Sources */,
