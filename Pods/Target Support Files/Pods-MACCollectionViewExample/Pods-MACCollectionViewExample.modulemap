@@ -1,0 +1,6 @@
+framework module Pods_MACCollectionViewExample {
+  umbrella header "Pods-MACCollectionViewExample-umbrella.h"
+
+  export *
+  module * { export * }
+}

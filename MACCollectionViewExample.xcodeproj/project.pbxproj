@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4B6670D81D43939A00A08D14 /* SelectedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4B6670D71D43939A00A08D14 /* SelectedCollectionViewCell.xib */; };
 		4B6670DA1D43940100A08D14 /* SelectedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6670D91D43940100A08D14 /* SelectedCollectionViewCell.swift */; };
+		4B6FE1DA1D455C63009E644F /* BackspaceAwareTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6FE1D91D455C63009E644F /* BackspaceAwareTextField.swift */; };
 		4BC4D0571D42EE64004EAA66 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0561D42EE64004EAA66 /* AppDelegate.swift */; };
 		4BC4D0591D42EE64004EAA66 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0581D42EE64004EAA66 /* ViewController.swift */; };
 		4BC4D05C1D42EE64004EAA66 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC4D05A1D42EE64004EAA66 /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 		4BC4D0881D42F0EF004EAA66 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0871D42F0EF004EAA66 /* TableViewCell.swift */; };
 		4BC4D0921D42FB00004EAA66 /* TextEntryCellCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4BC4D0911D42FB00004EAA66 /* TextEntryCellCollectionViewCell.xib */; };
 		4BC4D0941D42FB31004EAA66 /* TextEntryCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC4D0931D42FB31004EAA66 /* TextEntryCellCollectionViewCell.swift */; };
+		7B083824C86A585C5A5050AB /* Pods_MACCollectionViewExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49389354C08B0129CE03A3B6 /* Pods_MACCollectionViewExample.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,8 +42,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		25E26C4E46FCED57D5A09A1D /* Pods-MACCollectionViewExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MACCollectionViewExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-MACCollectionViewExample/Pods-MACCollectionViewExample.release.xcconfig"; sourceTree = "<group>"; };
+		49389354C08B0129CE03A3B6 /* Pods_MACCollectionViewExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MACCollectionViewExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B6670D71D43939A00A08D14 /* SelectedCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedCollectionViewCell.xib; sourceTree = "<group>"; };
 		4B6670D91D43940100A08D14 /* SelectedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedCollectionViewCell.swift; sourceTree = "<group>"; };
+		4B6FE1D91D455C63009E644F /* BackspaceAwareTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackspaceAwareTextField.swift; sourceTree = "<group>"; };
 		4BC4D0531D42EE64004EAA66 /* MACCollectionViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MACCollectionViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC4D0561D42EE64004EAA66 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4BC4D0581D42EE64004EAA66 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +64,7 @@
 		4BC4D0871D42F0EF004EAA66 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		4BC4D0911D42FB00004EAA66 /* TextEntryCellCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextEntryCellCollectionViewCell.xib; sourceTree = "<group>"; };
 		4BC4D0931D42FB31004EAA66 /* TextEntryCellCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEntryCellCollectionViewCell.swift; sourceTree = "<group>"; };
+		A810BF9521D571D16683F26E /* Pods-MACCollectionViewExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MACCollectionViewExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MACCollectionViewExample/Pods-MACCollectionViewExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B083824C86A585C5A5050AB /* Pods_MACCollectionViewExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +100,8 @@
 				4BC4D06A1D42EE64004EAA66 /* MACCollectionViewExampleTests */,
 				4BC4D0751D42EE65004EAA66 /* MACCollectionViewExampleUITests */,
 				4BC4D0541D42EE64004EAA66 /* Products */,
+				64F8CFCCAD0B23DE932E6AA5 /* Pods */,
+				50A54D84F21D0781F07134FA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,6 +130,7 @@
 				4BC4D05D1D42EE64004EAA66 /* Assets.xcassets */,
 				4BC4D05F1D42EE64004EAA66 /* LaunchScreen.storyboard */,
 				4BC4D0621D42EE64004EAA66 /* Info.plist */,
+				4B6FE1D91D455C63009E644F /* BackspaceAwareTextField.swift */,
 			);
 			path = MACCollectionViewExample;
 			sourceTree = "<group>";
@@ -151,6 +161,23 @@
 			name = MACLibrary;
 			sourceTree = "<group>";
 		};
+		50A54D84F21D0781F07134FA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				49389354C08B0129CE03A3B6 /* Pods_MACCollectionViewExample.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		64F8CFCCAD0B23DE932E6AA5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A810BF9521D571D16683F26E /* Pods-MACCollectionViewExample.debug.xcconfig */,
+				25E26C4E46FCED57D5A09A1D /* Pods-MACCollectionViewExample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -158,9 +185,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BC4D07B1D42EE65004EAA66 /* Build configuration list for PBXNativeTarget "MACCollectionViewExample" */;
 			buildPhases = (
+				F0CB7DE978A4A00ED72EE166 /* Check Pods Manifest.lock */,
 				4BC4D04F1D42EE64004EAA66 /* Sources */,
 				4BC4D0501D42EE64004EAA66 /* Frameworks */,
 				4BC4D0511D42EE64004EAA66 /* Resources */,
+				72F28C91A433A63936DB95EB /* Embed Pods Frameworks */,
+				4D879587B11CF2A1C01250EA /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -280,6 +310,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4D879587B11CF2A1C01250EA /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MACCollectionViewExample/Pods-MACCollectionViewExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		72F28C91A433A63936DB95EB /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MACCollectionViewExample/Pods-MACCollectionViewExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F0CB7DE978A4A00ED72EE166 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4BC4D04F1D42EE64004EAA66 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -287,6 +365,7 @@
 			files = (
 				4BC4D0591D42EE64004EAA66 /* ViewController.swift in Sources */,
 				4BC4D0881D42F0EF004EAA66 /* TableViewCell.swift in Sources */,
+				4B6FE1DA1D455C63009E644F /* BackspaceAwareTextField.swift in Sources */,
 				4BC4D0851D42EF13004EAA66 /* MACCollectionView.swift in Sources */,
 				4BC4D0571D42EE64004EAA66 /* AppDelegate.swift in Sources */,
 				4B6670DA1D43940100A08D14 /* SelectedCollectionViewCell.swift in Sources */,
@@ -430,6 +509,7 @@
 		};
 		4BC4D07C1D42EE65004EAA66 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A810BF9521D571D16683F26E /* Pods-MACCollectionViewExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -444,6 +524,7 @@
 		};
 		4BC4D07D1D42EE65004EAA66 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25E26C4E46FCED57D5A09A1D /* Pods-MACCollectionViewExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
