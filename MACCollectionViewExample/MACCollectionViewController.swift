@@ -22,6 +22,9 @@ private let reuseIdentifier = "Cell"
     var unselectedChosenItemBorderWidth:CGFloat = 2.0
     var unselectedChosenItemCornerRadius:CGFloat = 10
     
+    var textFieldFont:UIFont! = UIFont.systemFontOfSize(CGFloat(14.0))
+    var chosenItemFont:UIFont! = UIFont.systemFontOfSize(CGFloat(17.0))
+    
     var selectedChosenItemBackgroundColor = UIColor.blueColor()
     var selectedChosenItemTextColor = UIColor.whiteColor()
     var unselectedChosenItemBackgroundColor = UIColor.whiteColor()
@@ -33,12 +36,10 @@ private let reuseIdentifier = "Cell"
     {
         super.init()
         self.macCollectionView = macCollectionView
-        self.macCollectionView.dataSource = self
-        self.macCollectionView.delegate = self
-        self.heightAnchor = self.macCollectionView.heightAnchor.constraintEqualToConstant(10.0)
-        self.heightAnchor.active = true
         self.delegate = delegate
         self.dataSource = dataSource
+        
+        self.setupMacCollectionView()
         self.setupListeners()
         self.registerCells()
         
@@ -57,6 +58,15 @@ private let reuseIdentifier = "Cell"
         }
     }
     
+    //------------------------------------------------------------------------------
+    
+    func setupMacCollectionView()
+    {
+        self.macCollectionView.dataSource = self
+        self.macCollectionView.delegate = self
+        self.heightAnchor = self.macCollectionView.heightAnchor.constraintEqualToConstant(10.0)
+        self.heightAnchor.active = true
+    }
     //------------------------------------------------------------------------------
     
     func registerCells()
@@ -173,6 +183,7 @@ private let reuseIdentifier = "Cell"
     {
         let cell = self.macCollectionView.dequeueReusableCellWithReuseIdentifier("TextEntryCollectionViewCell", forIndexPath: indexPath) as! TextEntryCollectionViewCell
         cell.textField.text = ""
+        cell.textField.font = self.textFieldFont
         self.setupTextField(cell.textField)
         return cell
     }
@@ -188,7 +199,7 @@ private let reuseIdentifier = "Cell"
         {
             title = dataSource.titleForItemAtIndexPath(indexPath)
         }
-        
+        cell.label.font = self.chosenItemFont
         cell.label.text = title
         
         self.formatChosenItemCollectionViewCell(cell)
@@ -321,11 +332,10 @@ private let reuseIdentifier = "Cell"
     
     //------------------------------------------------------------------------------
     
-    func calculateLabelSize(text:String) -> CGSize
+    func calculateLabelSize(text:String, font:UIFont) -> CGSize
     {
         let minimumWidth = CGFloat(10.0)
         let minimumHeight = CGFloat(20.0)
-        let font = UIFont.systemFontOfSize(CGFloat(17.0))
         let fontAttributes = [NSFontAttributeName: font] as [String:AnyObject] // it says name, but a UIFont works
         var size = (text as NSString).sizeWithAttributes(fontAttributes)
         
@@ -341,7 +351,7 @@ private let reuseIdentifier = "Cell"
         }
         
         // pad left and right
-        size.width += 3.0
+        size.width += 30.0
         return size
     }
     
@@ -350,11 +360,14 @@ private let reuseIdentifier = "Cell"
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
     {
         var text:String = ""
+        var font:UIFont = self.chosenItemFont
+        
         if let dataSource = self.dataSource
         {
             // IF it's the textField
             if (indexPath.item == dataSource.numberOfChosenItems(self.macCollectionView))
             {
+                font = self.textFieldFont
                 if let textField = self.searchTextField
                 {
                     text = textField.text!
@@ -370,7 +383,7 @@ private let reuseIdentifier = "Cell"
                text = dataSource.titleForItemAtIndexPath(indexPath)
             }
         }
-        return self.calculateLabelSize(text)
+        return self.calculateLabelSize(text, font: font)
     }
 
 }
