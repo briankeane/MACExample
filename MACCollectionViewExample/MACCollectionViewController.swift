@@ -10,11 +10,12 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class MACCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
+@objc class MACCollectionViewHandler:NSObject, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var delegate:MACCollectionViewDelegate?
     var dataSource:MACCollectionViewDataSource?
     var searchTextField:UITextField?
+    var macCollectionView:MACCollectionView!
     
     
     var unselectedChosenItemBorderColor:CGColor = UIColor.blackColor().CGColor
@@ -26,25 +27,24 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
     var unselectedChosenItemBackgroundColor = UIColor.whiteColor()
     var unselectedChosenItemTextColor = UIColor.blueColor()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    //------------------------------------------------------------------------------
+    
+    init(macCollectionView:MACCollectionView!, delegate:MACCollectionViewDelegate, dataSource:MACCollectionViewDataSource)
+    {
+        super.init()
+        self.macCollectionView = macCollectionView
+        self.macCollectionView.dataSource = self
+        self.macCollectionView.dataSource = self
+        self.delegate = delegate
+        self.dataSource = dataSource
+        self.setupListeners()
         self.registerCells()
         
-        // Register cell classes
-        self.collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        self.collectionView!.registerNib(UINib(nibName: "TextEntryCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TextEntryCollectionViewCell")
-        self.collectionView!.registerNib(UINib(nibName: "ChosenItemCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ChosenItemCollectionViewCell")
-    }
-
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
     }
 
     //------------------------------------------------------------------------------
     
-    func registerCells()
+    func setupListeners()
     {
         NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) in
             self.textFieldChanged()
@@ -57,6 +57,15 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
     
     //------------------------------------------------------------------------------
     
+    func registerCells()
+    {
+        
+        self.macCollectionView.registerNib(UINib(nibName: "TextEntryCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TextEntryCollectionViewCell")
+        self.macCollectionView.registerNib(UINib(nibName: "ChosenItemCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ChosenItemCollectionViewCell")
+    }
+    
+    //------------------------------------------------------------------------------
+    
     func textFieldChanged()
     {
         if let textField = self.searchTextField
@@ -64,7 +73,7 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
             if let delegate = self.delegate
             {
                 delegate.textFieldChanged(textField.text!)
-                self.collectionView!.collectionViewLayout.invalidateLayout() // resizes textField cell
+                self.macCollectionView.collectionViewLayout.invalidateLayout() // resizes textField cell
             }
         }
     }
@@ -77,21 +86,21 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
         {
             if let dataSource = self.dataSource
             {
-                let numberOfItems = dataSource.numberOfChosenItems(self.collectionView as! MACCollectionView)
+                let numberOfItems = dataSource.numberOfChosenItems(self.macCollectionView)
                 if (numberOfItems > 0)
                 {
-                    if let selectedIndexPaths = self.collectionView!.indexPathsForSelectedItems()
+                    if let selectedIndexPaths = self.macCollectionView.indexPathsForSelectedItems()
                     {
                         // IF nothing is selected... select the last chosenItem
                         if (selectedIndexPaths.count == 0)
                         {
                             let indexPath = NSIndexPath(forItem: numberOfItems-1, inSection: 0)
                             //self.deselectAll()
-                            self.collectionView!.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-                            if let cell = self.collectionView!.cellForItemAtIndexPath(indexPath) as? ChosenItemCollectionViewCell
+                            self.macCollectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+                            if let cell = self.macCollectionView.cellForItemAtIndexPath(indexPath) as? ChosenItemCollectionViewCell
                             {
                                 self.colorizeSelectedChosenItemCollectionViewCell(cell)
-                                delegate?.collectionView?(self.collectionView as! MACCollectionView, didSelectItemAtIndexPath: indexPath)
+                                delegate?.collectionView?(self.macCollectionView, didSelectItemAtIndexPath: indexPath)
                             }
                         }
                         // ELSE delete selected item
@@ -100,18 +109,16 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
                             var indexes = selectedIndexPaths.map({$0.item})
                             print("test.count: \(indexes.count)")
                             self.dataSource?.willRemoveItemsAtIndexPaths(selectedIndexPaths)
-                            self.collectionView!.performBatchUpdates({
-                                self.collectionView!.deleteItemsAtIndexPaths(selectedIndexPaths)
+                            self.macCollectionView.performBatchUpdates({
+                                self.macCollectionView.deleteItemsAtIndexPaths(selectedIndexPaths)
                                 for i in 0..<indexes.count
                                 {
-                                    let cell = self.collectionView!.cellForItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0))
+                                    let cell = self.macCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0))
                                     cell?.sizeToFit()
                                 }
                                 }, completion: { (completed) in
-                                    self.collectionView!.collectionViewLayout.invalidateLayout()
+                                    self.macCollectionView.collectionViewLayout.invalidateLayout()
                             })
-                            
-                            
                         }
                     }
                 }
@@ -124,14 +131,14 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
     
     //------------------------------------------------------------------------------
     
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int
     {
         return 1
     }
 
     //------------------------------------------------------------------------------
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
         if (self.dataSource == nil)
         {
@@ -139,16 +146,16 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
         }
         else
         {
-            return self.dataSource!.numberOfChosenItems(self.collectionView as! MACCollectionView) + 1  // + 1 is for textField holder cell
+            return self.dataSource!.numberOfChosenItems(self.macCollectionView) + 1  // + 1 is for textField holder cell
         }
     }
     
     //------------------------------------------------------------------------------
 
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {
         // IF it is the textField
-        if (indexPath.item == self.collectionView(self.collectionView!, numberOfItemsInSection: 0))
+        if (indexPath.item == self.dataSource?.numberOfChosenItems(self.macCollectionView))
         {
             return self.createTextEntryCollectionViewCell(indexPath)
         }
@@ -162,7 +169,7 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
     
     func createTextEntryCollectionViewCell(indexPath:NSIndexPath) -> TextEntryCollectionViewCell
     {
-        let cell = self.collectionView!.dequeueReusableCellWithReuseIdentifier("TextEntryCollectionViewCell", forIndexPath: indexPath) as! TextEntryCollectionViewCell
+        let cell = self.macCollectionView.dequeueReusableCellWithReuseIdentifier("TextEntryCollectionViewCell", forIndexPath: indexPath) as! TextEntryCollectionViewCell
         cell.textField.text = ""
         self.setupTextField(cell.textField)
         return cell
@@ -172,7 +179,7 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
     
     func createChosenItemsCell(indexPath:NSIndexPath) -> ChosenItemCollectionViewCell
     {
-        let cell = self.collectionView!.dequeueReusableCellWithReuseIdentifier("ChosenItemCollectionViewCell", forIndexPath: indexPath) as! ChosenItemCollectionViewCell
+        let cell = self.macCollectionView.dequeueReusableCellWithReuseIdentifier("ChosenItemCollectionViewCell", forIndexPath: indexPath) as! ChosenItemCollectionViewCell
         
         var title = ""
         if let dataSource = self.dataSource
@@ -231,13 +238,13 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
     
     //------------------------------------------------------------------------------
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath)
     {
         self.deselectAll()
-        self.collectionView!.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-        if let cell = self.collectionView!.cellForItemAtIndexPath(indexPath) as? ChosenItemCollectionViewCell
+        self.macCollectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+        if let cell = self.macCollectionView.cellForItemAtIndexPath(indexPath) as? ChosenItemCollectionViewCell
         {
-            self.delegate?.collectionView?(self.collectionView as! MACCollectionView, didSelectItemAtIndexPath: indexPath)
+            self.delegate?.collectionView?(self.macCollectionView, didSelectItemAtIndexPath: indexPath)
             self.colorizeSelectedChosenItemCollectionViewCell(cell)
         }
     }
@@ -248,12 +255,12 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
     {
         if let dataSource = self.dataSource
         {
-            for i in 0..<dataSource.numberOfChosenItems(self.collectionView as! MACCollectionView)
+            for i in 0..<dataSource.numberOfChosenItems(self.macCollectionView)
             {
-                if let cell = self.collectionView?.cellForItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0)) as? ChosenItemCollectionViewCell
+                if let cell = self.macCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0)) as? ChosenItemCollectionViewCell
                 {
-                    self.collectionView?.deselectItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0), animated: false)
-                    self.delegate?.collectionView?(self.collectionView as! MACCollectionView, didSelectItemAtIndexPath: NSIndexPath(forItem: i, inSection: 0))
+                    self.macCollectionView.deselectItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0), animated: false)
+                    self.delegate?.collectionView?(self.macCollectionView, didSelectItemAtIndexPath: NSIndexPath(forItem: i, inSection: 0))
                 }
             }
         }
@@ -265,7 +272,7 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
     {
         if let dataSource = self.dataSource
         {
-            dataSource.handleReturnKeypress(self.collectionView! as! MACCollectionView)
+            dataSource.handleReturnKeypress(self.macCollectionView)
         }
         return true
     }
@@ -289,7 +296,7 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
     {
         dispatch_async(dispatch_get_main_queue())
         {
-            self.collectionView!.reloadData()
+            self.macCollectionView.reloadData()
 //            self.collectionViewHeightConstraint.constant = self.collectionView.collectionViewLayout.collectionViewContentSize().height + self.collectionView.contentInset.top + self.collectionView.contentInset.bottom
             self.focusOnTextField()
         }
@@ -338,7 +345,7 @@ class MACCollectionViewController: UICollectionViewController, UICollectionViewD
         if let dataSource = self.dataSource
         {
             // IF it's the textField
-            if (indexPath.item == dataSource.numberOfChosenItems(self.collectionView as! MACCollectionView))
+            if (indexPath.item == dataSource.numberOfChosenItems(self.macCollectionView))
             {
                 if let textField = self.searchTextField
                 {

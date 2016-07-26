@@ -16,7 +16,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     
     var searchTextField:UITextField?
-    var macCollectionViewController:MACCollectionViewController!
+    var macCollectionViewHandler:MACCollectionViewHandler!
     
     var words = [
         "abandon",
@@ -59,12 +59,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func setupCollectionView()
     {
-        self.macCollectionViewController = MACCollectionViewController()
-        self.addChildViewController(macCollectionViewController)
-        self.view.addSubview(macCollectionViewController.view)
-        self.macCollectionViewController.dataSource = self
-        self.macCollectionViewController.delegate = self
-        self.macCollectionViewController.collectionView = self.collectionView
+        self.macCollectionViewHandler = MACCollectionViewHandler(macCollectionView: self.collectionView, delegate: self, dataSource: self)
     }
     
     //------------------------------------------------------------------------------
@@ -137,7 +132,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if (self.searchResults.count > 0)
         {
             self.selected.append(self.searchResults[self.searchResults.count-1])
-            self.macCollectionViewController.reloadData()
+            self.macCollectionViewHandler.reloadData()
         }
     }
     
@@ -147,7 +142,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     {
         let newSelected = self.searchResults[indexPath.row]
         self.selected.append(newSelected)
-        self.macCollectionViewController.reloadData()
+        self.macCollectionViewHandler.reloadData()
     }
     
     //------------------------------------------------------------------------------
