@@ -16,7 +16,7 @@ private let reuseIdentifier = "Cell"
     var dataSource:MACCollectionViewDataSource?
     var searchTextField:UITextField?
     var macCollectionView:MACCollectionView!
-    
+    var heightAnchor:NSLayoutConstraint!
     
     var unselectedChosenItemBorderColor:CGColor = UIColor.blackColor().CGColor
     var unselectedChosenItemBorderWidth:CGFloat = 2.0
@@ -34,7 +34,9 @@ private let reuseIdentifier = "Cell"
         super.init()
         self.macCollectionView = macCollectionView
         self.macCollectionView.dataSource = self
-        self.macCollectionView.dataSource = self
+        self.macCollectionView.delegate = self
+        self.heightAnchor = self.macCollectionView.heightAnchor.constraintEqualToConstant(10.0)
+        self.heightAnchor.active = true
         self.delegate = delegate
         self.dataSource = dataSource
         self.setupListeners()
@@ -260,7 +262,8 @@ private let reuseIdentifier = "Cell"
                 if let cell = self.macCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0)) as? ChosenItemCollectionViewCell
                 {
                     self.macCollectionView.deselectItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0), animated: false)
-                    self.delegate?.collectionView?(self.macCollectionView, didSelectItemAtIndexPath: NSIndexPath(forItem: i, inSection: 0))
+                    self.formatChosenItemCollectionViewCell(cell)
+                    self.delegate?.collectionView?(self.macCollectionView, didDeselectItemAtIndexPath: NSIndexPath(forItem: i, inSection: 0))
                 }
             }
         }
@@ -297,10 +300,13 @@ private let reuseIdentifier = "Cell"
         dispatch_async(dispatch_get_main_queue())
         {
             self.macCollectionView.reloadData()
-//            self.collectionViewHeightConstraint.constant = self.collectionView.collectionViewLayout.collectionViewContentSize().height + self.collectionView.contentInset.top + self.collectionView.contentInset.bottom
+            let calculatedHeight =  self.macCollectionView.collectionViewLayout.collectionViewContentSize().height + self.macCollectionView.contentInset.top + self.macCollectionView.contentInset.bottom
+            self.heightAnchor.constant = calculatedHeight
+            self.heightAnchor.active = true
+            self.macCollectionView.setNeedsUpdateConstraints()
+            //self.macCollectionView.layoutIfNeeded()
             self.focusOnTextField()
         }
-        return
     }
     
     //------------------------------------------------------------------------------
@@ -339,6 +345,8 @@ private let reuseIdentifier = "Cell"
         return size
     }
     
+    //------------------------------------------------------------------------------
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
     {
         var text:String = ""
@@ -364,37 +372,5 @@ private let reuseIdentifier = "Cell"
         }
         return self.calculateLabelSize(text)
     }
-    
-    
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        return false
-    }
-
-    override func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
-    
-    }
-    */
 
 }
