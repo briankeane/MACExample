@@ -21,9 +21,12 @@ private let reuseIdentifier = "Cell"
     var unselectedChosenItemBorderColor:CGColor = UIColor.blackColor().CGColor
     var unselectedChosenItemBorderWidth:CGFloat = 2.0
     var unselectedChosenItemCornerRadius:CGFloat = 10
+    var selectedChosenItemBorderColor:CGColor = UIColor.blackColor().CGColor
+    var selectedChosenItemBorderWidth:CGFloat = 2.0
+    var selectedChosenItemCornerRadius:CGFloat = 10
     
     var textFieldFont:UIFont! = UIFont.systemFontOfSize(CGFloat(14.0))
-    var chosenItemFont:UIFont! = UIFont.systemFontOfSize(CGFloat(17.0))
+    var chosenItemFont:UIFont! = UIFont.systemFontOfSize(CGFloat(14.0))
     
     var selectedChosenItemBackgroundColor = UIColor.blueColor()
     var selectedChosenItemTextColor = UIColor.whiteColor()
@@ -42,17 +45,18 @@ private let reuseIdentifier = "Cell"
         self.setupMacCollectionView()
         self.setupListeners()
         self.registerCells()
-        
     }
 
     //------------------------------------------------------------------------------
     
     func setupListeners()
     {
+        // respond to textFieldChange
         NSNotificationCenter.defaultCenter().addObserverForName(UITextFieldTextDidChangeNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) in
             self.textFieldChanged()
         }
         
+        // respond to backspace pressed
         NSNotificationCenter.defaultCenter().addObserverForName("BackspacePressedEvent", object: nil, queue: NSOperationQueue.mainQueue()) { (notification) in
             self.backspacePressed()
         }
@@ -66,7 +70,10 @@ private let reuseIdentifier = "Cell"
         self.macCollectionView.delegate = self
         self.heightAnchor = self.macCollectionView.heightAnchor.constraintEqualToConstant(10.0)
         self.heightAnchor.active = true
+        self.macCollectionView.contentInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        self.setHeight()
     }
+    
     //------------------------------------------------------------------------------
     
     func registerCells()
@@ -128,8 +135,11 @@ private let reuseIdentifier = "Cell"
                                     let cell = self.macCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: i, inSection: 0))
                                     cell?.sizeToFit()
                                 }
-                                }, completion: { (completed) in
-                                    self.macCollectionView.collectionViewLayout.invalidateLayout()
+                            }, completion: { (completed) in
+                                self.macCollectionView.collectionViewLayout.invalidateLayout()
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    self.setHeight()
+                                })
                             })
                         }
                     }
@@ -311,12 +321,21 @@ private let reuseIdentifier = "Cell"
         dispatch_async(dispatch_get_main_queue())
         {
             self.macCollectionView.reloadData()
-            let calculatedHeight =  self.macCollectionView.collectionViewLayout.collectionViewContentSize().height + self.macCollectionView.contentInset.top + self.macCollectionView.contentInset.bottom
-            self.heightAnchor.constant = calculatedHeight
-            self.heightAnchor.active = true
+            self.setHeight()
             self.macCollectionView.setNeedsUpdateConstraints()
-            //self.macCollectionView.layoutIfNeeded()
             self.focusOnTextField()
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    
+    func setHeight()
+    {
+        let calculatedHeight =  self.macCollectionView.collectionViewLayout.collectionViewContentSize().height + self.macCollectionView.contentInset.top + self.macCollectionView.contentInset.bottom
+        self.heightAnchor.constant = calculatedHeight
+        self.heightAnchor.active = true
+        UIView.animateWithDuration(0.2) { 
+            self.macCollectionView.setNeedsUpdateConstraints()
         }
     }
     
@@ -332,26 +351,21 @@ private let reuseIdentifier = "Cell"
     
     //------------------------------------------------------------------------------
     
-    func calculateLabelSize(text:String, font:UIFont) -> CGSize
+    func calculateLabelSize(text:String, font:UIFont, isTextField:Bool) -> CGSize
     {
+        let adjustedFont:UIFont! = UIFont(name: font.fontName, size: font.pointSize + 3.0)
+        
         let minimumWidth = CGFloat(10.0)
         let minimumHeight = CGFloat(20.0)
-        let fontAttributes = [NSFontAttributeName: font] as [String:AnyObject] // it says name, but a UIFont works
+        let fontAttributes = [NSFontAttributeName: adjustedFont] as [String:AnyObject] // it says name, but a UIFont works
         var size = (text as NSString).sizeWithAttributes(fontAttributes)
         
-        //size.height = 30.0
-        if (size.height < minimumHeight)
-        {
-            size.height = minimumHeight
-        }
-        
-        if (size.width < minimumWidth)
-        {
-            size.width = minimumWidth
-        }
+        size.height = max(size.height, minimumHeight)
+        size.width = max(size.width, minimumWidth)
         
         // pad left and right
-        size.width += 30.0
+        size.width += 3.0
+        
         return size
     }
     
@@ -361,6 +375,7 @@ private let reuseIdentifier = "Cell"
     {
         var text:String = ""
         var font:UIFont = self.chosenItemFont
+        var isTextFieldFlag:Bool = false
         
         if let dataSource = self.dataSource
         {
@@ -368,6 +383,7 @@ private let reuseIdentifier = "Cell"
             if (indexPath.item == dataSource.numberOfChosenItems(self.macCollectionView))
             {
                 font = self.textFieldFont
+                isTextFieldFlag = true
                 if let textField = self.searchTextField
                 {
                     text = textField.text!
@@ -376,14 +392,13 @@ private let reuseIdentifier = "Cell"
                 {
                     text = "0"
                 }
-
             }
             else
             {
                text = dataSource.titleForItemAtIndexPath(indexPath)
             }
         }
-        return self.calculateLabelSize(text, font: font)
+        return self.calculateLabelSize(text, font: font, isTextField: isTextFieldFlag)
     }
 
 }
